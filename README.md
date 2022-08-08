@@ -1,7 +1,7 @@
 # f1rstResponder
 
 ## About
-f1rstResponder is designed to act as a honeypot for instances of responder running on a network. It attempts to connect to bad hostnames on the network and listens for a DNS, MDNS, or LLMNR response that resolves the bad hostnames, this gives an indication of responder poisioning responses. 
+f1rstResponder is designed to act as a honeypot for instances of responder running on a network. It attempts to connect to bad hostnames on the network and listens for a DNS, MDNS, or LLMNR response that resolves the bad hostnames, this gives an indication of responder poisoning responses. 
 
 Optionally, f1rstResponder can be configured to connect to preconfigured bad hostnames (such as something that would match a common typo on your network) and it can also be configured to send logs to an external syslog server. 
 
