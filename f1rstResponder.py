@@ -7,16 +7,23 @@ import sys
 import random
 import string
 import time
-
+from impacket.smbconnection import SMBConnection
+import impacket.smb3
 
 def main():
 
-    opts, args = getopt.getopt(sys.argv[1:], "n:f:l:h", [
-                               'name', 'frequency', 'logserver'])
+    opts, args = getopt.getopt(sys.argv[1:], "n:f:l:u:p:d:h", [
+                               'name', 'frequency', 'logserver', 'user', 'password', 'domain'])
     hflag = False
     nflag = False
     fflag = False
     lflag = False
+    uflag = False
+    pflag = False
+    dflag = False
+    PORT = 445  # Have to use 445 or else responder will not do LLMNR NTBIOS poisoning
+    domain =''
+
     for opt, arg in opts:
         if opt == '-n':
             name = arg
@@ -36,6 +43,19 @@ def main():
         if opt == '-l':
             logserver = arg
             lflag = True
+
+        if opt == '-u':
+            username = arg
+            uflag = True
+
+        if opt == '-p':
+            password = arg
+            pflag = True
+        
+        if opt == '-d':
+            domain = arg
+            dflag = True
+
         elif opt == '-h':
             print()
             print("***** f1rstResponder *****")
@@ -49,14 +69,23 @@ def main():
                 "-f           Set frequency per hour to query, if not set will default to 4/hr")
             print(
                 "-l           Toggle logging to syslog and set IP of remote syslog server")
+            print(
+                "-p           Username to use to connect back to responder fake SMB share")
+            print(
+                "-l           Password to use to connect back to responder fake SMB share")
             quit()
+
+    if (uflag == True and pflag == False) or (uflag == False and pflag == True):
+        print("You must enter both a username and password or neither.")
+        exit()
+
     if nflag == True:
         HOST = name  # The fake host name that will trigger DNS, LLMNR and NTBIOS lookup
     elif nflag == False:  # Generate random string to use as name to try and resolve
         letters = string.ascii_lowercase
         randstr = ''.join(random.choice(letters) for i in range(8))
         HOST = randstr
-    PORT = 445  # Have to use 445 or else responder will not do LLMNR NTBIOS poisoning
+
     if fflag == False:  # Set freq to default of 4/hr
         freq = 4
 
@@ -78,14 +107,31 @@ def main():
             ip = s.getpeername()
             print(
                 f"f1rstResponder request to {HOST} responded to by {ip[0]} - indication of potential poisioned response by Responder")
+
+            if (pflag == True and uflag == True):
+                print(
+                    f"Attempting to connect back to {ip[0]} with username: {username} and password: {password}")
+                try:
+                    smbClient = SMBConnection(
+                        ip[0], ip[0], sess_port=int(PORT))
+                    smbClient.login(username, password, domain)
+
+                except (impacket.smb3.SessionError, impacket.smbconnection.SessionError) as e:
+                    "Connection attempt successful, username and hash passed"
+                    pass
+
             if lflag == True:
                 logger.warning(
                     f"f1rstResponder request to {HOST} responded to by {ip[0]} - indication of potential poisioned response by Responder")
+                if uflag == True and pflag == True:
+                    logger.warning(
+                    f"username: {username} and password: {password} as a hash passed to suspected responder smbshare at IP {ip[0]}")
+
         except socket.gaierror:  # If we get a gaierror the name cannot resolve
             print(f"f1rstResponder request to {HOST} with no response")
             if lflag == True:
                 logger.info(
-                    f"f1rstREsponder request to {HOST} with no response")
+                    f"f1rstResponder request to {HOST} with no response")
             pass
         time.sleep(sleeptimer)
 
