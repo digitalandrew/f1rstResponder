@@ -21,7 +21,9 @@ Useage Example:
 Optional Arguments:
 
 -n &nbsp; Set the name of the host to look up, if this is not set a random 8 character string will be used  
--f &nbsp; Set the frequency that f1rstResponder will attempt to connect to the host, if this is not set it will default to 4/hr  
+
+-f &nbsp; Set the frequency that f1rstResponder will attempt to connect to the host, if this is not set it will default to 4/hr
+
 -l &nbsp; Toggle on syslog logging and set the IP address of the syslog server
 
 -u &nbsp; Set the username to be used to connect back to the responder malicious smb share
