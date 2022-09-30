@@ -74,11 +74,11 @@ def main():
             print(
                 "-l           Toggle logging to syslog and set IP of remote syslog server")
             print(
-                "-l           Set the port of the syslog server, if not set will default to 514")
+                "-s           Set the port of the syslog server, if not set will default to 514")
             print(
-                "-p           Username to use to connect back to responder fake SMB share")
+                "-u           Username to use to connect back to responder fake SMB share")
             print(
-                "-l           Password to use to connect back to responder fake SMB share")
+                "-p           Password to use to connect back to responder fake SMB share")
             quit()
 
     if (uflag == True and pflag == False) or (uflag == False and pflag == True):
