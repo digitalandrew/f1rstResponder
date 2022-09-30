@@ -64,7 +64,7 @@ def main():
             print()
             print("***** f1rstResponder *****")
             print()
-            print("Usage example: f1rstResponder.py -n lookup_name -f 4 -r 192.168.121.5")
+            print("Usage example: f1rstResponder.py -n lookup_name -f 4 -l 192.168.121.5")
             print()
             print("Flags:")
             print(
