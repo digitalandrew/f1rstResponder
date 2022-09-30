@@ -12,8 +12,8 @@ import impacket.smb3
 
 def main():
 
-    opts, args = getopt.getopt(sys.argv[1:], "n:f:l:u:p:d:h", [
-                               'name', 'frequency', 'logserver', 'user', 'password', 'domain'])
+    opts, args = getopt.getopt(sys.argv[1:], "n:f:l:u:p:d:s:h", [
+                               'name', 'frequency', 'logserver', 'user', 'password', 'domain','sysport'])
     hflag = False
     nflag = False
     fflag = False
@@ -21,6 +21,7 @@ def main():
     uflag = False
     pflag = False
     dflag = False
+    sflag = False
     PORT = 445  # Have to use 445 or else responder will not do LLMNR NTBIOS poisoning
     domain =''
 
@@ -55,6 +56,9 @@ def main():
         if opt == '-d':
             domain = arg
             dflag = True
+        if opt == '-s':
+            sysport = arg
+            sflag == True
 
         elif opt == '-h':
             print()
@@ -69,6 +73,8 @@ def main():
                 "-f           Set frequency per hour to query, if not set will default to 4/hr")
             print(
                 "-l           Toggle logging to syslog and set IP of remote syslog server")
+            print(
+                "-l           Set the port of the syslog server, if not set will default to 514")
             print(
                 "-p           Username to use to connect back to responder fake SMB share")
             print(
@@ -91,10 +97,13 @@ def main():
 
     sleeptimer = (60 / freq) * 60
 
+    if sflag == False:
+        sysport = 514
+
     if lflag == True:
         logger = logging.getLogger('MyLogger')
         logger.setLevel(logging.DEBUG)
-        handler = logging.handlers.SysLogHandler(address=(logserver, 514))
+        handler = logging.handlers.SysLogHandler(address=(logserver, sysport))
         logger.addHandler(handler)
         logger.info(f"f1rstResponder starting connection attempts to {HOST}")
 

@@ -26,6 +26,8 @@ Optional Arguments:
 
 -l &nbsp; Toggle on syslog logging and set the IP address of the syslog server
 
+-s &nbsp; Set the port of the syslog server, will default to 514 if not set
+
 -u &nbsp; Set the username to be used to connect back to the responder malicious smb share
 
 -p &nbsp; Set the password to be used to connect back to the responder malicious smb share
