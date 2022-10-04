@@ -57,8 +57,8 @@ def main():
             domain = arg
             dflag = True
         if opt == '-s':
-            sysport = arg
-            sflag == True
+            sysport =int(arg)
+            sflag = True
 
         elif opt == '-h':
             print()
