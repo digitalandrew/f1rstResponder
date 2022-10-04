@@ -134,7 +134,7 @@ def main():
                     f"f1rstResponder request to {HOST} responded to by {ip[0]} - indication of potential poisioned response by Responder")
                 if uflag == True and pflag == True:
                     logger.warning(
-                    f"username: {username} and password: {password} as a hash passed to suspected responder smbshare at IP {ip[0]}")
+                    f"f1rstResponder username: {username} and password: {password} as a hash passed to suspected responder smbshare at IP {ip[0]}")
 
         except socket.gaierror:  # If we get a gaierror the name cannot resolve
             print(f"f1rstResponder request to {HOST} with no response")
