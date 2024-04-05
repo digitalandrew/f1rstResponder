@@ -7,7 +7,8 @@ Optionally, f1rstResponder can be configured to connect to preconfigured bad hos
 
 If passed a username AND password f1rstResponder will attempt to connect back to the malicious smb share hosted by responder. This provides an opportunity to tie an AD Deception account into the responder alerting as the account name and hash will then be intercepted by responder and most likely relayed or used by the adversary. Additional monitoring and restrictions can be placed on this AD deception account and combined with the f1rstResponder alert to allow for a zero false positive alert of an intruder in the network. 
  
-
+## Blog and Demo
+Find a blog and short demo video [here.](https://medium.com/@DigitalAndrew/serving-up-ad-decoy-accounts-to-responder-1f54591befc3)
 ## Useage:
 
 There are two useage options, f1rstResponder can be run as a standalone python script or as a docker container.
